@@ -11,41 +11,10 @@ import (
 
 var (
 	tnc     = TNC{}
-	version = "0.0.1"
 	state   = []string{"Unknown", "Offline", "Disconnected", "ISS", "IRS", "Idle", "FECSend", "FECReceive"}
 )
 
-// Frame Types
-type END struct {
-}
-type BREAK struct {
-}
-type NAK struct {
-}
-type ACK struct {
-}
-type DATANAK struct {
-}
-type DATAACK struct {
-}
-
-type CONREQ200 struct {
-}
-type CONREQ500 struct {
-}
-type CONREQ1000 struct {
-}
-type CONREQ2000 struct {
-}
-
-type CONACK200 struct {
-}
-type CONACK500 struct {
-}
-type CONACK1000 struct {
-}
-type CONACK2000 struct {
-}
+const VERSION = "0.0.1"
 
 // types
 type TNC struct {
@@ -82,7 +51,7 @@ func handleRequest(message []byte, conn net.Conn) {
 	case "INITIALIZE":
 		tnc = TNC{
 			arqBandwidth: 500,
-			version:      version,
+			version:      VERSION,
 		}
 		tnc.state = state[2]
 		resp := fmt.Sprintf("INITIALIZE\r")
@@ -111,6 +80,10 @@ func handleRequest(message []byte, conn net.Conn) {
 		io.WriteString(conn, resp)
 	case "STATE":
 		resp := fmt.Sprintf("STATE %s\r", tnc.State())
+		io.WriteString(conn, resp)
+case "BREAK":
+		resp := fmt.Sprintf("BREAK %s\r", tnc.State())
+		fmt.Printf("Sending Packet: [%s]\n", BREAK)
 		io.WriteString(conn, resp)
 	case "PROTOCOLMODE":
 		resp := fmt.Sprintf("PROTOCOLMODE\r")
@@ -167,8 +140,7 @@ func startListener(host string) {
 }
 
 func main() {
-	version := "0.0.1"
-	fmt.Printf("Starting ARDOP client version [%s]\n", version)
+	fmt.Printf("Starting ARDOP client version [%s]\n", VERSION)
 
 	var listenerWG sync.WaitGroup
 	listeners := []string{

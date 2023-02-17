@@ -12,7 +12,7 @@ ARCH = $(shell uname -m)
 .PHONY:
 build:
 	@echo "Building binaries..."
-	go build -ldflags=${linker_flags} -o=./build/ardop-${ARCH}-${git_hash} ./main.go
+	go build -ldflags=${linker_flags} -o=./build/ardop-${ARCH}-${git_hash} main.go packet.go
 	GOOS=linux GOARCH=arm64 go build -ldflags=${linker_flags} -o=./build/ardop-linux-arm64-${git_hash} ./main.go
 	GOOS=linux GOARCH=arm go build -ldflags=${linker_flags} -o=./build/ardop-linux-arm-${git_hash} ./main.go
 	GOOS=windows GOARCH=amd64 go build -ldflags=${linker_flags} -o=./build/ardop-windows-${git_hash} ./main.go
