@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	tnc     = TNC{}
-	state   = []string{"Unknown", "Offline", "Disconnected", "ISS", "IRS", "Idle", "FECSend", "FECReceive"}
+	tnc   = TNC{}
+	state = []string{"Unknown", "Offline", "Disconnected", "ISS", "IRS", "Idle", "FECSend", "FECReceive"}
 )
 
 const VERSION = "0.0.1"
@@ -81,7 +81,7 @@ func handleRequest(message []byte, conn net.Conn) {
 	case "STATE":
 		resp := fmt.Sprintf("STATE %s\r", tnc.State())
 		io.WriteString(conn, resp)
-case "BREAK":
+	case "BREAK":
 		resp := fmt.Sprintf("BREAK %s\r", tnc.State())
 		fmt.Printf("Sending Packet: [%s]\n", BREAK)
 		io.WriteString(conn, resp)
